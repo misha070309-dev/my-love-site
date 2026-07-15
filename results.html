@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Response Viewer</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 24px; background: #f2f7ff; color: #102a43; }
+        .card { max-width: 720px; margin: 0 auto; padding: 24px; background: white; border-radius: 16px; box-shadow: 0 10px 30px rgba(16, 42, 67, 0.12); }
+        h1 { margin-top: 0; color: #1d4ed8; }
+        p { line-height: 1.65; }
+        .value { padding: 16px; border-radius: 12px; background: #eff6ff; margin: 16px 0; color: #0c4a6e; }
+        a { color: #1d4ed8; text-decoration: none; }
+        button { padding: 10px 16px; border: none; border-radius: 10px; background: #2563eb; color: white; cursor: pointer; }
+        button:hover { background: #1e40af; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Saved Response</h1>
+        <p>This page reads the last response from the love page and shows it here.</p>
+        <div id="responseContainer" class="value">Loading response...</div>
+        <button id="clearBtn">Clear saved response</button>
+        <p style="margin-top:18px;"><a href="index.html">← Back to Home</a> | <a href="message.html">Go to Love Page</a></p>
+    </div>
+
+    <script>
+        const responseContainer = document.getElementById('responseContainer');
+        const clearBtn = document.getElementById('clearBtn');
+        const responseKey = 'girlfriendResponse';
+        const responseTimeKey = 'girlfriendResponseTime';
+
+        function showResponse() {
+            const response = localStorage.getItem(responseKey);
+            const time = localStorage.getItem(responseTimeKey);
+            if (!response) {
+                responseContainer.textContent = 'No response saved yet. Visit the love page and press Yes or No.';
+                return;
+            }
+            responseContainer.innerHTML = `<strong>Answer:</strong> ${response}<br><strong>Time:</strong> ${time || 'Unknown'}<br><strong>Note:</strong> This is saved locally in your browser, not on a server.`;
+        }
+
+        clearBtn.addEventListener('click', () => {
+            localStorage.removeItem(responseKey);
+            localStorage.removeItem(responseTimeKey);
+            showResponse();
+        });
+
+        showResponse();
+    </script>
+</body>
+</html>
